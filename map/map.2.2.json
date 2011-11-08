@@ -1,0 +1,137 @@
+[{
+	"type":	"building",
+	"src":	"img/pokemon.png",
+	"where": {
+		"x":	3,
+		"y":	1
+	},
+	"x":	0,
+	"y":	0,
+	"w":	82,
+	"h":	70,
+	"dw":	100,
+	"dh":	50
+},{
+	"type":	"building",
+	"src":	"img/pokemon.png",
+	"where": {
+		"x":	6,
+		"y":	4
+	},
+	"x":	0,
+	"y":	0,
+	"w":	82,
+	"h":	70,
+	"dw":	75,
+	"dh":	70
+},{
+	"type":	"building",
+	"src":	"img/pokemon.png",
+	"where": {
+		"x":	6,
+		"y":	8
+	},
+	"x":	250,
+	"y":	145,
+	"w":	65,
+	"h":	65,
+	"dw":	75,
+	"dh":	75
+},{
+	"type":	"building",
+	"src":	"img/pokemon.png",
+	"where": {
+		"x":	12,
+		"y":	3
+	},
+	"x":	5,
+	"y":	185,
+	"w":	55,
+	"h":	50,
+	"dw":	50,
+	"dh":	50
+},{
+	"type":	"building",
+	"src":	"img/pokemon.png",
+	"where": {
+		"x":	18,
+		"y":	10
+	},
+	"x":	0,
+	"y":	0,
+	"w":	82,
+	"h":	70,
+	"dw":	50,
+	"dh":	100
+},{
+	"type":	"structure",
+	"src":	"img/wall.jpg",
+	"where": {
+		"x":	0,
+		"y":	0
+	},
+	"x":	0,
+	"y":	0,
+	"w":	154,
+	"h":	154,
+	"dw":	25,
+	"dh":	25,
+	"repeatX":	23,
+	"except": [{
+		"x":	1,
+		"y":	0
+	},{
+		"x":	2,
+		"y":	0
+	}]
+},{
+	"type":	"structure",
+	"src":	"img/wall.jpg",
+	"where": {
+		"x":	0,
+		"y":	15
+	},
+	"x":	0,
+	"y":	0,
+	"w":	154,
+	"h":	154,
+	"dw":	25,
+	"dh":	25,
+	"repeatX":	23
+},{
+	"type":	"structure",
+	"src":	"img/wall.jpg",
+	"where": {
+		"x":	0,
+		"y":	1
+	},
+	"x":	0,
+	"y":	0,
+	"w":	154,
+	"h":	154,
+	"dw":	25,
+	"dh":	25,
+	"repeatY":	13,
+	"except": [{
+		"x":	0,
+		"y":	8
+	}]
+},{
+	"type":	"structure",
+	"src":	"img/wall.jpg",
+	"where": {
+		"x":	23,
+		"y":	1
+	},
+	"x":	0,
+	"y":	0,
+	"w":	154,
+	"h":	154,
+	"dw":	25,
+	"dh":	25,
+	"repeatY":	13,
+	"except": [{
+		"x":	23,
+		"y":	12
+	}]
+}]

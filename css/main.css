@@ -1,0 +1,153 @@
+.button{
+	padding:2px 4px;
+	border:1px solid #000;
+	border-radius:6px;
+	background:#4477ff;
+	box-shadow:0 0 2px 2px #666;
+	color:#fff;
+	text-shadow:#000 0 2px 2px;
+	font-weight:bold;
+	cursor:pointer;
+	-webkit-transition:all .5s;
+}
+	.button:hover{
+		border-color:#fff;
+	}
+body{
+	margin:0; padding:0;
+	background:#333;
+	color:#fff;
+	font-size:14px;
+}
+	h1,h2,h3,h4,h5,h6{
+		font-variant:small-caps;
+	}
+	.stress{
+		color:#bb52ff;
+	}
+#main{
+	width:600px;
+	margin:20px auto 0; padding:20px;
+	border:2px solid #000; border-radius:10px;
+	background:#363;
+}
+	#game{
+		position:relative;
+		width:600px; height:400px;
+		outline:2px solid #000;
+		background:#666;
+	}
+		canvas{
+			position:absolute;
+			pointer-events:none;
+		}
+		.bird{
+			position:absolute; top:200px; left:300px;
+			width:25px; height:22px;
+			background-image:url(../img/bird2.png);
+			background-position:0 0;
+			background-repeat:no-repeat;
+			-webkit-transition:top,right,bottom,left 8s 2s;
+			-webkit-animation:
+				fly 8s ease infinite,
+				wings .5s steps(3) infinite;
+			-moz-animation:fly 8s linear infinite;
+			animation:fly 8s linear infinite;
+		}
+			.bird:after{
+				content:attr(data-type);
+				position:absolute; top:25px;
+				display:none;
+			}
+			.bird:hover:after{
+				display:block;
+			}
+	#log{
+		text-align:center;
+	}
+    #menu{
+        position:absolute; top:42px;
+        width:600px; height:400px;
+        display:none;
+		background: -moz-linear-gradient(top,  rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.37) 1%, rgba(136,124,100,1) 8%, rgba(175,160,128,0.99) 10%, rgba(181,157,97,0.8) 50%, rgba(175,160,128,1) 91%, rgba(153,140,112,1) 92%, rgba(0,0,0,0.51) 99%, rgba(0,0,0,0.44) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.28)), color-stop(1%,rgba(0,0,0,0.37)), color-stop(8%,rgba(136,124,100,1)), color-stop(10%,rgba(175,160,128,0.99)), color-stop(50%,rgba(181,157,97,0.8)), color-stop(91%,rgba(175,160,128,1)), color-stop(92%,rgba(153,140,112,1)), color-stop(99%,rgba(0,0,0,0.51)), color-stop(100%,rgba(0,0,0,0.44))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.37) 1%,rgba(136,124,100,1) 8%,rgba(175,160,128,0.99) 10%,rgba(181,157,97,0.8) 50%,rgba(175,160,128,1) 91%,rgba(153,140,112,1) 92%,rgba(0,0,0,0.51) 99%,rgba(0,0,0,0.44) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.37) 1%,rgba(136,124,100,1) 8%,rgba(175,160,128,0.99) 10%,rgba(181,157,97,0.8) 50%,rgba(175,160,128,1) 91%,rgba(153,140,112,1) 92%,rgba(0,0,0,0.51) 99%,rgba(0,0,0,0.44) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.37) 1%,rgba(136,124,100,1) 8%,rgba(175,160,128,0.99) 10%,rgba(181,157,97,0.8) 50%,rgba(175,160,128,1) 91%,rgba(153,140,112,1) 92%,rgba(0,0,0,0.51) 99%,rgba(0,0,0,0.44) 100%); /* IE10+ */
+		background: linear-gradient(top,  rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.37) 1%,rgba(136,124,100,1) 8%,rgba(175,160,128,0.99) 10%,rgba(181,157,97,0.8) 50%,rgba(175,160,128,1) 91%,rgba(153,140,112,1) 92%,rgba(0,0,0,0.51) 99%,rgba(0,0,0,0.44) 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#47000000', endColorstr='#70000000',GradientType=0 ); /* IE6-9 */
+		
+		color:#333;
+		overflow:hidden;
+    }
+		#menu-party{
+			position:relative; top:0; left:350px;
+			-webkit-transform:rotate(-5deg);
+		}
+			#menu-party h1{
+				margin-bottom:0;
+			}
+			#menu-party ol{
+				margin-top:0;
+			}
+@-webkit-keyframes wings{
+	0%	{
+		background-position:0 0;
+	}
+	100%	{
+		background-position:-75px 0;
+	}
+}
+@-webkit-keyframes fly{
+	0%	{
+		-webkit-transform:
+			rotateY(90deg)
+			rotateZ(80deg)
+			scale(1)
+			translate3d(-20px,50px,0);
+	}
+	25%	{
+		-webkit-transform:
+			rotateY(180deg)
+			rotateZ(80deg)
+			scale(1.25)
+			translate3d(-20px,0px,0);
+	}
+	50%	{
+		-webkit-transform:
+			rotateY(270deg)
+			rotateZ(80deg)
+			scale(1.5)
+			translate3d(-20px,-50px,0);
+	}
+	75%	{
+		-webkit-transform:
+			rotateY(360deg)
+			rotateZ(80deg)
+			scale(1.25)
+			translate3d(-20px,0px,0);
+	}
+	100%{
+		-webkit-transform:
+			rotateY(90deg)
+			rotateZ(80deg)
+			scale(1)
+			translate3d(-20px,50px,0);
+	}
+}
+@-moz-keyframes fly{
+	0%	{
+		-moz-transform:rotate(0deg);
+	}
+	100%{
+		-moz-transform:rotate(360deg);
+	}
+}
+@keyframes fly{
+	0%	{
+		transform:rotate(0deg);
+	}
+	100%{
+		transform:rotate(360deg);
+	}
+}
