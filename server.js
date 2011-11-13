@@ -1,8 +1,8 @@
 var http = require('http'),
 	fs = require('fs'),
 	util = require('util'),
-	router = require('./router'),
 	io = require('socket.io'),
+	router = require('./router'),
 	world = require('./js/world'),
 	pathfinder = require('./js/pathfinder.js'),
 	
@@ -37,6 +37,7 @@ var http = require('http'),
 			}
 		});
 		server.listen(+(process.argv[2] || 4));
+
 		socket.sockets.on('connection',function(client){
 			me = client;
 			client.on('login',function(clientUser){
@@ -177,14 +178,14 @@ var http = require('http'),
 							players[person].get('position',function(err,remotePosition){
 								if(
 									players[person] !== client
-                                &&  old && remotePosition
+								&&  old && remotePosition
 								&&	old.map.x === remotePosition.map.x
 								&&	old.map.y === remotePosition.map.y
 								){
 									players[person].emit('player.exitMap',user);
 								}else if(
 									players[person] !== client
-                                &&  position && remotePosition
+								&&  position && remotePosition
 								&&	position.map.x === remotePosition.map.x
 								&&	position.map.y === remotePosition.map.y
 								&&(		!position.instance
@@ -211,7 +212,7 @@ var http = require('http'),
 							players[person].get('position',function(err,remotePosition){
 								if(
 									players[person] !== client
-                                &&  position && remotePosition
+								&&  position && remotePosition
 								&&	position.map.x === remotePosition.map.x
 								&&	position.map.y === remotePosition.map.y
 								&&(		!position.instance
