@@ -1,0 +1,40 @@
+!!! 5
+html(lang="en")
+  head
+    title MMORPGKTHX
+    meta(name='description', content='This is the MMORPGKTHX that Ross built.')
+    meta(name='author', content='Ross Hadden')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='google-site-verification', content='2zvM0MQYwi9b4V2sMpBHkQHPt20qZAsARcxAv57fZTw')
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/ext/chosen.css')
+    script(src='/js/modernizr.js')
+  body
+    #main
+      #game
+        canvas#background(width=600, height=400)
+        canvas#grid(width=600, height=400)
+        canvas#ground(width=600, height=400)
+        canvas#players(width=600, height=400)
+        canvas#foreground(width=600, height=400)
+        .bird(data-type='Invitation')
+      #menu
+        #menu-party
+          h1 Party
+          ol
+          #menu-party-invite
+            select#menu-party-invite-name
+              option(value, disabled) Choose a Player...
+            a#menu-party-invite-send.button Send Invite
+          div
+            a#menu-party-invite-button.button Invite Player
+    #log
+    script(src='/js/jquery1.7.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/ext/chosen.jquery.min.js')
+    script(src='/js/world.js')
+    script(src='/js/draw.js')
+    script(src='/js/menu.js')
+    script(src='/js/player.js')
+    script(src='/js/pathfinder.js')
+    script(src='/js/main.js')

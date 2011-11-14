@@ -1,10 +1,12 @@
-var http = require('http'),
+var //http = require('http'),
 	fs = require('fs'),
 	util = require('util'),
+	express = require('express'),
+	app = express.createServer(),
 	io = require('socket.io'),
 	router = require('./router'),
-	world = require('./js/world'),
-	pathfinder = require('./js/pathfinder.js'),
+	world = require('./ink/js/world'),
+	pathfinder = require('./ink/js/pathfinder.js'),
 	
 	me,
 	players = {},
@@ -12,7 +14,19 @@ var http = require('http'),
 	numClients = 0,
 	
 	start = function(){
-		var server = http.createServer(function(request,response){
+		app.configure(function(){
+			app.use(app.router);
+			app.use(express.static(__dirname + '/ink'));
+		});
+		app.set('views',__dirname + '/views');
+		app.set('view engine','jade');
+		app.set('view options',{
+			layout:false
+		});
+		app.get('/',function(request,response){
+			response.render('index');
+		});
+		var /*server = http.createServer(function(request,response){
 				var rs,
 					route = router.route(request.url);
 				response.writeHead(200,{
@@ -27,8 +41,8 @@ var http = require('http'),
 					console.log('Invalid Request.');
 					response.end('Invalid Request.');
 				}
-			}),
-			socket = io.listen(server);
+			}),*/
+			socket = io.listen(app);
 		socket.set('log level',1);
 		world.collision.render({
 			map: {
@@ -36,7 +50,7 @@ var http = require('http'),
 				y:	1
 			}
 		});
-		server.listen(+(process.argv[2] || 4));
+		app.listen(+(process.argv[2] || 4));
 
 		socket.sockets.on('connection',function(client){
 			me = client;
