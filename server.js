@@ -1,10 +1,7 @@
-var //http = require('http'),
-	fs = require('fs'),
-	util = require('util'),
+var fs = require('fs'),
 	express = require('express'),
 	app = express.createServer(),
-	io = require('socket.io'),
-	router = require('./router'),
+	auth = require('./auth'),
 	world = require('./ink/js/world'),
 	pathfinder = require('./ink/js/pathfinder.js'),
 	
@@ -13,36 +10,46 @@ var //http = require('http'),
 	parties = {},
 	numClients = 0,
 	
-	start = function(){
+	init = function(){
 		app.configure(function(){
+			app.set('views',__dirname + '/views');
+			app.set('view engine','jade');
+			app.set('view options',{
+				layout:false
+			});
+			app.use(express.bodyParser());
+			app.use(express.cookieParser());
+			app.use(express.session({
+				secret:'asdf'
+			}));
+			//app.use(everyauth.middleware());
+			app.use(require('./auth').configure(app));
 			app.use(app.router);
 			app.use(express.static(__dirname + '/ink'));
-		});
-		app.set('views',__dirname + '/views');
-		app.set('view engine','jade');
-		app.set('view options',{
-			layout:false
 		});
 		app.get('/',function(request,response){
 			response.render('index');
 		});
-		var /*server = http.createServer(function(request,response){
-				var rs,
-					route = router.route(request.url);
-				response.writeHead(200,{
-					'Content-Type':	route.mime
-				});
-				if(route.type === 'http'){
-					rs = fs.createReadStream(route.path,response);
-					util.pump(rs,response);
-				}else if(route.type === 'ajax'){
-					response.end(JSON.stringify(ajax[route.url.split('/')[2]](route.query)));
-				}else{
-					console.log('Invalid Request.');
-					response.end('Invalid Request.');
-				}
-			}),*/
-			socket = io.listen(app);
+	},
+	main = function(){
+		init();
+		var socket = require('socket.io').listen(app);
+		/*server = http.createServer(function(request,response){
+			var rs,
+				route = router.route(request.url);
+			response.writeHead(200,{
+				'Content-Type':	route.mime
+			});
+			if(route.type === 'http'){
+				rs = fs.createReadStream(route.path,response);
+				util.pump(rs,response);
+			}else if(route.type === 'ajax'){
+				response.end(JSON.stringify(ajax[route.url.split('/')[2]](route.query)));
+			}else{
+				console.log('Invalid Request.');
+				response.end('Invalid Request.');
+			}
+		})*/
 		socket.set('log level',1);
 		world.collision.render({
 			map: {
@@ -50,6 +57,7 @@ var //http = require('http'),
 				y:	1
 			}
 		});
+		console.log('http://localhost:%d | %s',+(process.argv[2] || 4),app.settings.env);
 		app.listen(+(process.argv[2] || 4));
 
 		socket.sockets.on('connection',function(client){
@@ -326,4 +334,4 @@ console.log(parties);
 			});
 		}
 	};
-exports.start = start;
+exports.start = main;
