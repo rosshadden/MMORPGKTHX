@@ -1,0 +1,40 @@
+!!! 5
+html(lang="en")
+  head
+    title MMORPGKTHX
+    meta(name='description', content='This is the MMORPGKTHX that Ross built.')
+    meta(name='author', content='Ross Hadden')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='google-site-verification', content='2zvM0MQYwi9b4V2sMpBHkQHPt20qZAsARcxAv57fZTw')
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/ext/chosen.css')
+    script(src='/js/modernizr.js')
+  body
+    #main
+      - if(everyauth.loggedIn)
+        #Authed
+          - if(everyauth.twitter)
+            span
+              Hi #{everyauth.twitter.user.name} from Twitter!
+            span
+              img(src='#{everyauth.twitter.user.profile_image_url}')
+          - if(everyauth.facebook)
+            span Hi #{everyauth.facebook.user.name} from Facebook!
+          - if(everyauth.github)
+            span Hi #{everyauth.github.user.name} from GitHub!
+            span
+              img(src="https://secure.gravatar.com/avatar/#{everyauth.github.user.gravatar_id}")
+          //code= JSON.stringify(everyauth)
+          div
+            a(href="/logout") Sign Out
+        !=body
+      - else
+        #login
+          a.button(href='/auth/twitter')
+            img(src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
+          a.button(href='auth/google')
+            img(src='https://www.google.com/favicon.ico')
+          a.button(href='#')
+            img(src='http://facebook.com/favicon.ico')
+          a.button(href='auth/github')
+            img(src='http://github.com/intridea/authbuttons/raw/master/png/github_64.png')
