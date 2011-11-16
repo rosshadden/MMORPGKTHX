@@ -1,11 +1,15 @@
 var fs = require('fs'),
 	express = require('express'),
 	app = express.createServer(),
+	Session = require('connect').middleware.session.Session,
+	parseCookie = require('connect').utils.parseCookie,
+	parseURL = require('url').parse,
+	sessionStore = new express.session.MemoryStore(),
+	
 	auth = require('./auth'),
 	world = require('./ink/js/world'),
 	pathfinder = require('./ink/js/pathfinder.js'),
 	
-	me,
 	players = {},
 	parties = {},
 	numClients = 0,
@@ -15,20 +19,43 @@ var fs = require('fs'),
 			app.set('views',__dirname + '/views');
 			app.set('view engine','jade');
 			app.set('view options',{
-				layout:false
+				//layout:false
 			});
 			app.use(express.bodyParser());
 			app.use(express.cookieParser());
 			app.use(express.session({
-				secret:'asdf'
+				store:	sessionStore,
+				secret:	'asdf',
+				key:	'express.sid'
 			}));
-			//app.use(everyauth.middleware());
 			app.use(require('./auth').configure(app));
 			app.use(app.router);
 			app.use(express.static(__dirname + '/ink'));
 		});
 		app.get('/',function(request,response){
 			response.render('index');
+		});
+		app.get('/GET',function(request,response){
+			var data,
+				url = parseURL(request.url,true);
+			response.contentType('application/json');
+			
+			switch(url.query.with){
+				case 'test':
+					data = 'need to figure out how to access session here.';
+					data = request.session;
+					break;
+				case 'players':
+					data = [];
+					for(person in players){
+						data.push(person);
+					}
+					break;
+				default:
+					data = 'default';
+			}
+			
+			response.end(JSON.stringify(data));
 		});
 	},
 	main = function(){
@@ -59,14 +86,37 @@ var fs = require('fs'),
 		});
 		console.log('http://localhost:%d | %s',+(process.argv[2] || 4),app.settings.env);
 		app.listen(+(process.argv[2] || 4));
-
+		
+		socket.set('authorization',function(data,accept){
+			if(data.headers.cookie){
+				data.cookie = parseCookie(data.headers.cookie);
+				data.sessionID = data.cookie['express.sid'];
+				//	save the session store to the data object 
+				//	(as required by the Session constructor)
+				data.sessionStore = sessionStore;
+				sessionStore.get(data.sessionID,function(err,session){
+					if(err || !session){
+						accept('Error',false);
+					}else{
+						//	create a session object, passing data as request and our
+						//	newly acquired session data
+						data.session = new Session(data,session);
+						accept(null,true);
+					}
+				});
+			}else{
+			   return accept('No cookie transmitted.',false);
+			}
+		});
 		socket.sockets.on('connection',function(client){
-			me = client;
-			client.on('login',function(clientUser){
-				players[clientUser] = client;
-				console.log('LOG:','Player ' + ++numClients + ' logged in:',client.handshake.address.address,clientUser);
-				client.emit('login',clientUser);
-				client.set('user',clientUser);
+			var me = client.handshake.sessionID,
+				protocol = Object.keys(client.handshake.session.auth)[0],
+				username = protocol + '|' + client.handshake.session.auth[protocol].user.id;
+			client.on('login',function(){
+				players[username] = client;
+				console.log('LOG:','Player ' + ++numClients + ' logged in:',client.handshake.address.address,username);
+				client.emit('login',username);
+				client.set('user',username);
 				client.set('position',{
 					at: {
 						x:	300,
@@ -79,13 +129,13 @@ var fs = require('fs'),
 				});
 				client.set('inventory',[]);
 				client.broadcast.emit('player.update',{
-					user:	clientUser,
+					user:	username,
 					path:	[{x:12,y:8}]
 				});
 				for(person in players){
 					players[person].get('user',function(err,user){
 						players[person].get('position',function(err,position){
-							if(clientUser === user && players[person] !== client){
+							if(username === user && players[person] !== client){
 								//	Theoretically this is how we handle reentry.
 								//	Or... just use sessions.
 							}
@@ -307,31 +357,31 @@ var fs = require('fs'),
 		},
 		party: function(){
 			var party = [];
-			me.get('leader',function(err,leader){
+			/*me.get('leader',function(err,leader){
 				for(person in parties[leader]){
 					party.push(parties[leader][person]);
 				}
-			});
+			});*/
 			return party;
 		},
 		invite: function(guest){
 			if(players[guest.user]){
-				me.get('user',function(err,host){
-console.log('invite:',host,'->',guest.user);
+				/*me.get('user',function(err,host){
+					console.log('invite:',host,'->',guest.user);
 					players[guest.user].emit('party.invite',host);
-				});
+				});*/
 			}
 		},
 		accept: function(host){
-			me.get('user',function(err,guest){
-console.log('accept:',host.user,'->',guest);
+			/*me.get('user',function(err,guest){
+				console.log('accept:',host.user,'->',guest);
 				if(!parties[host.user]){
 					parties[host.user] = {};
 					parties[host.user][host.user] = players[host.user];
 				}
 				parties[host.user][guest] = players[guest];
-console.log(parties);
-			});
+				console.log(parties);
+			});*/
 		}
 	};
 exports.start = main;

@@ -28,6 +28,9 @@ body{
 	.stress{
 		color:#bb52ff;
 	}
+#login{
+	text-align:center;
+}
 #main{
 	width:600px;
 	margin:20px auto 0; padding:20px;

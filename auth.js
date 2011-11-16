@@ -8,20 +8,13 @@ var everyauth = require('everyauth'),
 	facebookID = {},
 	
 	addUser = function(source,sourceUser){
-		var user;
-		if (arguments.length === 1) { // password-based
-			user = sourceUser = source;
-			user.id = ++nextUserId;
-			return users[nextUserId] = user;
-		} else { // non-password-based
-			user = users[++nextUserId] = {id: nextUserId};
+		var user = users[++nextUserId] = {id: nextUserId};
 			user[source] = sourceUser;
-		}
 		return user;
 	};
 
 module.exports.configure = function(app){
-	everyauth.debug = true;
+	everyauth.debug = false;
 	
 	everyauth.google
 		.appId('888576786409.apps.googleusercontent.com')

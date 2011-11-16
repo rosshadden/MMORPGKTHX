@@ -1,8 +1,7 @@
-var i,me
+var i,me,
+	canvas,ctx,
 	WIDTH = 600,
 	HEIGHT = 400,
-	canvas = document.getElementById('players'),
-	ctx = canvas.getContext('2d'),
 	players = {},
 	
 	socket = new io.connect(location.hostname),
@@ -135,11 +134,13 @@ var i,me
 				$.get('POST/' + action,data || {});
 			},
 			get = function(action,data,holla){
-				$.getJSON('GET/' + action,data || {},holla);
+				data = data || {};
+				data.with = action;
+				$.getJSON('GET',data,holla);
 			},
 			getPlayers = function(){
 				var def = new $.Deferred();
-				get('players',{},function(players){
+				get('players',{red:5},function(players){
 					console.log('players:',players);
 					def.resolve(players);
 				});
@@ -159,14 +160,13 @@ var i,me
 			getParty:	getParty
 		};
 	})(),
-	init = function(){
+	init = (function(){
+		canvas = document.getElementById('players');
+		ctx = canvas.getContext('2d');
+		
 		canvas.width = WIDTH;
 		canvas.height = HEIGHT;
 		
-		/*for(i = 0; i < howManyCircles; i++){
-			circles.push([Math.random() * WIDTH,Math.random() * HEIGHT,Math.random() * 100,Math.random() / 2]);
-		}*/
-	
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){
 			me = new Player(data);
@@ -182,5 +182,4 @@ var i,me
 			draw.terrain();
 			main();
 		});
-	};
-init();
+	})();
