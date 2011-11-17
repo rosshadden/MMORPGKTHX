@@ -18,9 +18,6 @@ var fs = require('fs'),
 		app.configure(function(){
 			app.set('views',__dirname + '/views');
 			app.set('view engine','jade');
-			app.set('view options',{
-				//layout:false
-			});
 			app.use(express.bodyParser());
 			app.use(express.cookieParser());
 			app.use(express.session({
@@ -36,20 +33,51 @@ var fs = require('fs'),
 			response.render('index');
 		});
 		app.get('/GET',function(request,response){
-			var data,
-				url = parseURL(request.url,true);
+			var data = '',
+				url = parseURL(request.url,true),
+				username = request.user;
+				//protocol = Object.keys(request.session.auth)[0],
+				//username = protocol + '|' + request.session.auth[protocol].user.id;
 			response.contentType('application/json');
 			
-			switch(url.query.with){
-				case 'test':
-					data = 'need to figure out how to access session here.';
-					data = request.session;
+			switch(url.query.on){
+				case 'debug':
+					data = username;
+					console.log(parties);
 					break;
 				case 'players':
 					data = [];
 					for(person in players){
 						data.push(person);
 					}
+					break;
+				case 'party':
+					data = [];
+					players[username].get('leader',function(err,leader){
+						for(person in parties[leader]){
+							data.push(person);
+						}
+					});
+					break;
+				case 'invite':
+					if(players[url.query.user]){
+						players[username].get('user',function(err,host){
+							console.log('invite:',host,'->',url.query.user);
+							players[url.query.user].emit('party.invite',host);
+						});
+					}
+					break;
+				case 'accept':
+					players[username].get('user',function(err,guest){
+						console.log('accept:',url.query.user,'->',guest);
+						if(!parties[url.query.user]){
+							parties[url.query.user] = {};
+							parties[url.query.user][url.query.user] = players[url.query.user];
+							players[url.query.user].set('leader',url.query.user);
+						}
+						parties[url.query.user][guest] = players[guest];
+						players[guest].set('leader',url.query.user);
+					});
 					break;
 				default:
 					data = 'default';
@@ -348,22 +376,6 @@ var fs = require('fs'),
 		});
 	},
 	ajax = {
-		players: function(){
-			var people = [];
-			for(person in players){
-				people.push(person);
-			}
-			return people;
-		},
-		party: function(){
-			var party = [];
-			/*me.get('leader',function(err,leader){
-				for(person in parties[leader]){
-					party.push(parties[leader][person]);
-				}
-			});*/
-			return party;
-		},
 		invite: function(guest){
 			if(players[guest.user]){
 				/*me.get('user',function(err,host){

@@ -118,8 +118,9 @@ var i,me,
 			$('#log').append(response);
 			$('a.party-accept').on('click',function(){
 				$('.invite').remove();
-				game.post('accept',{
-					user:user
+				$.get('GET',{
+					on:		'accept',
+					user:	user
 				});
 			});
 		});
@@ -131,16 +132,24 @@ var i,me,
 	},
 	game = (function(){
 		var post = function(action,data){
-				$.get('POST/' + action,data || {});
+				$.get('POST' + action,data || {});
 			},
 			get = function(action,data,holla){
 				data = data || {};
-				data.with = action;
+				data.on = action;
 				$.getJSON('GET',data,holla);
+			},
+			debug = function(){
+				var def = new $.Deferred();
+				get('debug',{},function(data){
+					console.log('debug:',data);
+					def.resolve(data);
+				});
+				return def.promise();
 			},
 			getPlayers = function(){
 				var def = new $.Deferred();
-				get('players',{red:5},function(players){
+				get('players',{},function(players){
 					console.log('players:',players);
 					def.resolve(players);
 				});
@@ -156,6 +165,7 @@ var i,me,
 			};
 		return {
 			post:		post,
+			debug:		debug,
 			getPlayers:	getPlayers,
 			getParty:	getParty
 		};

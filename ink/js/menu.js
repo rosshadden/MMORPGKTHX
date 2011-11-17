@@ -22,7 +22,7 @@ var menu = (function(){
 		},
 		party = function(){
 			var i,l,
-				$members = $('#party').children('ol');
+				$members = $('#menu-party').children('ol');
 			$('#menu-party-invite').hide();
 			$.when(game.getParty()).done(function(party){
 				$members.html('');
@@ -49,7 +49,8 @@ var menu = (function(){
 			});
 			$('#menu-party-invite-send').on('click',function(){
 				$('#menu-party-invite').hide();
-				$.get('POST/invite',{
+				$.get('GET',{
+					on:		'invite',
 					user:	$players.val()
 				});
 			});
