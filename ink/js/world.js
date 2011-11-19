@@ -1,8 +1,12 @@
 var world = (function(){
 	var cell = 25,
 		dim = {
-			x:	600,
-			y:	400
+			x:	6e2,
+			y:	4e2,
+			view: {
+				x:	600,
+				y:	400
+			}
 		},
 		map = [],
 		grid = function(){

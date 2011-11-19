@@ -3,14 +3,29 @@ var	draw = (function(){
 		self.howManyCircles = 4;
 		self.circles = [];
 	var	easel = {
-			grid:		$('#grid')[0].getContext('2d'),
-			background:	$('#background')[0].getContext('2d'),
-			ground:		$('#ground')[0].getContext('2d'),
-			foreground:	$('#foreground')[0].getContext('2d'),
-			players:	$('#players')[0].getContext('2d')
+			grid:		$('#grid').attr({
+				width:	world.dim.x,
+				height:	world.dim.y
+			})[0].getContext('2d'),
+			background:	$('#background').attr({
+				width:	world.dim.x,
+				height:	world.dim.y
+			})[0].getContext('2d'),
+			ground:		$('#ground').attr({
+				width:	world.dim.x,
+				height:	world.dim.y
+			})[0].getContext('2d'),
+			foreground:	$('#foreground').attr({
+				width:	world.dim.x,
+				height:	world.dim.y
+			})[0].getContext('2d'),
+			players:	$('#players').attr({
+				width:	world.dim.x,
+				height:	world.dim.y
+			})[0].getContext('2d')
 		},
 		scrap = function(canvas){
-			clear(0,0,600,400,canvas);
+			clear(0,0,world.dim.x,world.dim.y,canvas);
 		},
 		clear = function(x,y,x2,y2,canvas){
 			easel[canvas || 'ground'].clearRect(x,y,x2,y2);
@@ -18,35 +33,9 @@ var	draw = (function(){
 		terrain = function(){
 			easel.background.fillStyle = '#386447';
 			easel.background.beginPath();
-			easel.background.fillRect(0,0,WIDTH,HEIGHT);
+			easel.background.fillRect(0,0,world.dim.x,world.dim.y);
 			easel.background.closePath;
 			easel.background.fill();
-		},
-		game = function(delta){
-			/*for(i = 0; i < self.howManyCircles; i++){
-				self.circles[i][3] = self.circles[i][3] || {};
-				ctx.fillStyle = 'rgba(' + self.circles[i][3].r +',' + self.circles[i][3].g + ',' + self.circles[i][3].b + ',' + self.circles[i][3].a + ')';
-				ctx.beginPath();
-				ctx.arc(self.circles[i][0],self.circles[i][1],self.circles[i][2],0,Math.PI * 2,true);
-				ctx.closePath();
-				ctx.fill();
-				ctx.stroke();
-			}
-			for(i = 0; i < self.howManyCircles; i++){
-				if(self.circles[i][1] - self.circles[i][2] > HEIGHT){
-					self.circles[i][0] = Math.random() * WIDTH;
-					self.circles[i][2] = 10 + Math.random() * 1e2;
-					self.circles[i][1] = 0 - self.circles[i][2];
-					self.circles[i][3] = {
-						r:	Math.floor(200 + Math.random() * 55),
-						g:	Math.floor(200 + Math.random() * 55),
-						b:	Math.floor(255 || Math.random() * 255),
-						a:	Math.random() * .8
-					};
-				}else{
-					self.circles[i][1] += 5 - delta * self.circles[i][2] / 100;
-				}
-			}*/
 		},
 		path = function(x,y,x2,y2,canvas,options){
 			var defaults = {
@@ -127,7 +116,6 @@ var	draw = (function(){
 			}
 		})();
 	return {
-		game:	game,
 		terrain:terrain,
 		path:	path,
 		scrap:	scrap,

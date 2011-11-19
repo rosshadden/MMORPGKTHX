@@ -33,19 +33,17 @@ var Player = function(user){
 		}
 	};
 	self.draw = function(){
-		try{
-			ctx.drawImage(
-				self.image,
-				self.width * 2 * self.directions.indexOf(self.dir) + self.width * self.actualFrame * self.isMoving,
-				0,
-				self.width,
-				self.height,
-				self.x,
-				self.y,
-				self.width,
-				self.height
-			);
-		}catch(e){};
+		ctx.drawImage(
+			self.image,
+			self.width * 2 * self.directions.indexOf(self.dir) + self.width * self.actualFrame * self.isMoving,
+			0,
+			self.width,
+			self.height,
+			self.x,
+			self.y,
+			self.width,
+			self.height
+		);
 		if(self.interval === 8){
 			self.actualFrame = (self.actualFrame + 1) % self.frames;
 			self.interval = 0;

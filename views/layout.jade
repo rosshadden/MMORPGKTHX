@@ -12,6 +12,7 @@ html(lang="en")
   body
     #main
       - if(everyauth.loggedIn)
+        !=body
         #Authed
           - if(everyauth.twitter)
             span
@@ -27,7 +28,6 @@ html(lang="en")
           //code= JSON.stringify(everyauth)
           div
             a(href="/logout") Sign Out
-        !=body
       - else
         #login
           a.button(href='/auth/twitter')

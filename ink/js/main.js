@@ -1,7 +1,5 @@
 var i,me,
 	canvas,ctx,
-	WIDTH = 600,
-	HEIGHT = 400,
 	players = {},
 	
 	socket = new io.connect(location.hostname),
@@ -22,21 +20,20 @@ var i,me,
 		}
 		me.move();
 		me.draw();
-		draw.game(5);
 	},
 	bind = function(){
 		$('#game').bind({
 			'click':	function(v){
 				var point = {
-					x:		~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25,
-					y:		~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25
+					x:	~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25,
+					y:	~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25
 				};
 				if(!me.isMoving){
 					socket.emit('player.move',{
-						id:		me.id,
-						x:		point.x,
-						y:		point.y,
-						old:	{
+						id:	me.id,
+						x:	point.x,
+						y:	point.y,
+						old: {
 							x:	me.x,
 							y:	me.y
 						}
@@ -174,8 +171,8 @@ var i,me,
 		canvas = document.getElementById('players');
 		ctx = canvas.getContext('2d');
 		
-		canvas.width = WIDTH;
-		canvas.height = HEIGHT;
+		//canvas.width = world.dim.x;
+		//canvas.height = world.dim.y;
 		
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){
