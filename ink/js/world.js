@@ -25,15 +25,6 @@ var world = (function(){
 			return cells;
 		},
 		getMap = function(position){
-			/*if(typeof y === 'object'){
-				map = y;
-			}else if(typeof map === 'undefined'){
-				map = world.map;
-			}
-			if(typeof x === 'object'){
-				y = x.y;
-				x = x.x;
-			}*/
 			if(!map[position.map.x]){
 				map[position.map.x] = [];
 			}

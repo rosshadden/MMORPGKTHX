@@ -176,15 +176,12 @@ var i,me,
 		
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){
-			me = new Player(data);
-			me.setPosition(300,200);
+			me = new Player(data.user);
+			me.setPosition(data.position.at);
 			
 			bind();
 			world.render({
-				map: {
-					x:	1,
-					y:	1
-				}
+				map: data.position.map
 			});
 			draw.terrain();
 			main();

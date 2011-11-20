@@ -2,10 +2,12 @@ var Player = function(user){
 	var self = this;
 	self.image = new Image();
 	self.image.src = 'img/characters.png';
-	self.width = 25;
-	self.height = 25;
 	
 	self.user = user;
+	
+	self.width = 25;
+	self.height = 25;
+	self.sprite = 0;
 	
 	self.x = 0;
 	self.y = 0;
@@ -36,7 +38,7 @@ var Player = function(user){
 		ctx.drawImage(
 			self.image,
 			self.width * 2 * self.directions.indexOf(self.dir) + self.width * self.actualFrame * self.isMoving,
-			0,
+			self.sprite * self.height,
 			self.width,
 			self.height,
 			self.x,

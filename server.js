@@ -119,23 +119,31 @@ var fs = require('fs'),
 				protocol = Object.keys(socket.handshake.session.auth)[0],
 				username = protocol + '|' + socket.handshake.session.auth[protocol].user.id;
 			socket.on('login',function(){
-				players[username] = {
-					user:		username,
-					socket:		socket,
-					inventory:	[],
-					position: {
-						at: {
-							x:	300,
-							y:	200
-						},
-						map: {
-							x:	1,
-							y:	1
+				if(!players[username]){
+					players[username] = {
+						user:		username,
+						socket:		socket,
+						inventory:	[],
+						position: {
+							at: {
+								x:	300,
+								y:	200
+							},
+							map: {
+								x:	1,
+								y:	1
+							}
 						}
-					}
-				};
+					};
+				}else{
+					players[username].socket = socket;
+				}
 				console.log('LOG:','Player ' + ++numClients + ' logged in:',socket.handshake.address.address,username);
-				socket.emit('login',username);
+				socket.emit('login',{
+					user:		username,
+					position:	players[username].position,
+					inventory:	players[username].inventory
+				});
 				socket.broadcast.emit('player.update',{
 					user:	username,
 					path:	[{x:12,y:8}]
