@@ -1,14 +1,15 @@
 var world = (function(){
 	var cell = 25,
 		dim = {
-			x:	6e2,
-			y:	4e2,
+			x:	6e2,//1e3,
+			y:	4e2,//1e3,
 			view: {
-				x:	600,
-				y:	400
+				x:	6e2,
+				y:	4e2
 			}
 		},
 		map = [],
+		tiles = {},
 		grid = function(){
 			var x,y,
 				cells = [];
@@ -55,17 +56,84 @@ var world = (function(){
 			script.className = 'map events';
 			document.body.appendChild(script);
 			draw.terrain();
-			draw.scrap('ground');
-			draw.scrap('foreground');
-			draw.scrap('players');
 			map = position.map.x + '.' + position.map.y;
 			if(position.instance){
 				map += '+' + position.instance.x + '.' + position.instance.y;
 			}
-			$.getJSON('map/map.' + map + '.json',function(tiles){
-				$.each(tiles,function(o,object){
-					draw.object(object);
+			$.getJSON('map/map.' + map + '.json',function(newMap){
+				var i,j,rX,rY,x,y,w,h,except;
+				for(i = 0; i < world.dim.x; i += world.cell){
+					for(j = 0; j < world.dim.y; j += world.cell){
+						draw.object({
+							src:	newMap.properties.background.src,
+							x:		newMap.properties.background.x,
+							y:		newMap.properties.background.y,
+							w:		newMap.properties.background.w,
+							h:		newMap.properties.background.h,
+							where: world.toGrid(i,j)
+						},'background');
+					}
+				}
+				$.each(newMap.tiles,function(t,tile){
+					except = [];
+					tile.repeatX = tile.repeatX || 0;
+					tile.repeatY = tile.repeatY || 0;
+					x = tile.x;
+					y = tile.y;
+					w = tile.w / (tile.dw / world.cell);
+					h = tile.h / (tile.dh / world.cell);
+					if(tile.except){
+						for(i = 0; i < tile.except.length; i++){
+							except.push(tile.except[i].x + ',' + tile.except[i].y);
+						}
+					}
+					for(i = 0; i < tile.dw / cell; i++){
+						for(j = 0; j < tile.dh / cell; j++){
+							for(rX = 0; rX <= tile.repeatX; rX++){
+								for(rY = 0; rY <= tile.repeatY; rY++){
+									if(
+										except.indexOf(
+											(tile.where.x + i + rX)
+											+','
+											+(tile.where.y + j + rY)
+										) === -1
+									){
+										draw.object({
+											src:	tile.src,
+											x:		x + i * w,
+											y:		y + j * h,
+											w:		w,
+											h:		h,
+											where: {
+												x:	tile.where.x + i + rX,
+												y:	tile.where.y + j + rY
+											}
+										},'foreground');
+									}
+								}
+							}
+						}
+					}
 				});
+				/*for(tile in tiles){
+					draw.object(tiles[tile],'foreground');
+				}*/
+			});
+		},
+		paint = function(layer){
+			draw.object({
+				type:	'canvas',
+				src:	layer,
+				x:		0,
+				y:		0,
+				w:		600,
+				h:		400,
+				width:	600,
+				height:	400,
+				where: {
+					x:	0,
+					y:	0
+				}
 			});
 		},
 		toGrid = function(x,y){
@@ -210,6 +278,7 @@ var world = (function(){
 		dim:		dim,
 		map:		getMap,
 		render:		render,
+		draw:		paint,
 		toGrid:		toGrid,
 		toXY:		toXY,
 		toPoint:	toPoint,

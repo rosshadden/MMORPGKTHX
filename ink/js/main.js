@@ -11,23 +11,27 @@ var i,me,
 			&&	mozRequestAnimationFrame(main)
 		||	window.requestAnimationFrame
 			&&	requestAnimationFrame(main);
-		draw.scrap('players');
+		draw.scrap('screen');
+		me.move();
+		draw.terrain();
+		world.draw('background');
 		for(player in players){
 			if(players[player].visible){
 				players[player].move();
 				players[player].draw();
 			}
 		}
-		me.move();
 		me.draw();
+		world.draw('foreground');
 	},
 	bind = function(){
 		$('#game').bind({
 			'click':	function(v){
 				var point = {
-					x:	~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25,
-					y:	~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25
+					x:	~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25 + viewport.get().x,
+					y:	~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25 + viewport.get().y
 				};
+				console.log('click:',point.x,point.y);
 				if(!me.isMoving){
 					socket.emit('player.move',{
 						id:	me.id,
@@ -69,18 +73,6 @@ var i,me,
 			if(position.path){
 				path = position.path;
 				me.position = position;
-				for(var i = 0, l = path.length; i < l; i++){
-					draw.path(
-						world.toXY(path[i].x) + 12,
-						world.toXY(path[i].y) + 12,
-						world.toXY(path[i].x) + 13,
-						world.toXY(path[i].y) + 13,
-						'ground',{
-							width:	5,
-							color:	'rgba(200,200,100,.4)'
-						}
-					);
-				}
 			}
 		});
 		socket.on('player.warp',function(position){
@@ -168,11 +160,8 @@ var i,me,
 		};
 	})(),
 	init = (function(){
-		canvas = document.getElementById('players');
+		canvas = document.getElementById('screen');
 		ctx = canvas.getContext('2d');
-		
-		//canvas.width = world.dim.x;
-		//canvas.height = world.dim.y;
 		
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){
@@ -180,10 +169,8 @@ var i,me,
 			me.setPosition(data.position.at);
 			
 			bind();
-			world.render({
-				map: data.position.map
-			});
-			draw.terrain();
+			world.render(data.position);
+			viewport.center();
 			main();
 		});
 	})();

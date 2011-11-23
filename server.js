@@ -10,6 +10,8 @@ var fs = require('fs'),
 	world = require('./ink/js/world'),
 	pathfinder = require('./ink/js/pathfinder.js'),
 	
+	time = new Date,
+	
 	players = {},
 	parties = {},
 	numClients = 0,
@@ -90,8 +92,8 @@ var fs = require('fs'),
 				y:	1
 			}
 		});
-		console.log('http://localhost:%d | %s',+(process.argv[2] || 4),app.settings.env);
-		app.listen(+(process.argv[2] || 4));
+		console.log('http://localhost:%d | %s',+(process.argv[2] || 80),app.settings.env);
+		app.listen(+(process.argv[2] || 80));
 		
 		io.set('authorization',function(data,accept){
 			if(data.headers.cookie){
@@ -119,6 +121,7 @@ var fs = require('fs'),
 				protocol = Object.keys(socket.handshake.session.auth)[0],
 				username = protocol + '|' + socket.handshake.session.auth[protocol].user.id;
 			socket.on('login',function(){
+				time = new Date;
 				if(!players[username]){
 					players[username] = {
 						user:		username,
@@ -138,7 +141,13 @@ var fs = require('fs'),
 				}else{
 					players[username].socket = socket;
 				}
-				console.log('LOG:','Player ' + ++numClients + ' logged in:',socket.handshake.address.address,username);
+				console.log(
+					'LOG:',
+					time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds(),
+					'Player ' + ++numClients + ' login:',
+					socket.handshake.address.address,
+					username
+				);
 				socket.emit('login',{
 					user:		username,
 					position:	players[username].position,
@@ -322,8 +331,15 @@ var fs = require('fs'),
 				socket.emit('inventory.get',players[username].inventory);
 			});
 			socket.on('disconnect',function(person){
+				time = new Date;
 				delete players[person];
-				console.log('LOG:','Player ' + numClients-- + ' logged out:',socket.handshake.address.address,players[username].user);
+				console.log(
+					'LOG:',
+					time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds(),
+					'Player ' + numClients-- + ' logout:',
+					socket.handshake.address.address,
+					players[username].user
+				);
 				socket.broadcast.emit('logoff',players[username].user);
 			});
 		});

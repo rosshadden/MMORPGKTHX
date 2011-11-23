@@ -47,6 +47,9 @@ body{
 			position:absolute;
 			pointer-events:none;
 		}
+		#background,#foreground{
+			display:none;
+		}
 		.bird{
 			position:absolute; top:200px; left:300px;
 			width:25px; height:22px;

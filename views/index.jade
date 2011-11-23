@@ -1,9 +1,7 @@
 #game
   canvas#background(width=600, height=400)
-  canvas#grid(width=600, height=400)
-  canvas#ground(width=600, height=400)
-  canvas#players(width=600, height=400)
   canvas#foreground(width=600, height=400)
+  canvas#screen(width=600, height=400)
   .bird(data-type='Invitation')
 #menu
   #menu-party
@@ -20,6 +18,7 @@ script(src='/js/jquery.js')
 script(src='/socket.io/socket.io.js')
 script(src='/js/ext/chosen.jquery.min.js')
 script(src='/js/world.js')
+script(src='/js/engine.js')
 script(src='/js/draw.js')
 script(src='/js/menu.js')
 script(src='/js/player.js')
