@@ -1,150 +1,162 @@
-[{
-	"name":	"pokecenter",
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	4,
-		"y":	10
+{
+	"properties": {
+		"width":	600,
+		"height":	400,
+		"background": {
+			"color":"#386447",
+			"src":	"img/pokemon.png",
+			"x":	20,
+			"y":	94,
+			"w":	14,
+			"h":	14
+		}
 	},
-	"x":	0,
-	"y":	0,
-	"w":	82,
-	"h":	70,
-	"dw":	100,
-	"dh":	50
-},{
-	"name":	"pokecenter",
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	14,
-		"y":	10
-	},
-	"x":	0,
-	"y":	0,
-	"w":	82,
-	"h":	70,
-	"dw":	75,
-	"dh":	70
-},{
-	"name":	"pokecenter",
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	4,
-		"y":	1
-	},
-	"x":	250,
-	"y":	145,
-	"w":	65,
-	"h":	65,
-	"dw":	75,
-	"dh":	75
-},{
-	"name":	"pokemart",
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	20,
-		"y":	6
-	},
-	"x":	5,
-	"y":	185,
-	"w":	55,
-	"h":	50,
-	"dw":	50,
-	"dh":	50
-},{
-	"name":	"pokecenter",
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	19,
-		"y":	10
-	},
-	"x":	0,
-	"y":	0,
-	"w":	82,
-	"h":	70,
-	"dw":	50,
-	"dh":	100
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	15
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatX":	23
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	0
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatX":	23,
-	"except":	[{
-		"x":	2,
-		"y":	0
-	},{
-		"x":	3,
-		"y":	0
-	},{
-		"x":	10,
-		"y":	0
-	},{
-		"x":	11,
-		"y":	0
-	},{
-		"x":	12,
-		"y":	0
-	},{
-		"x":	13,
-		"y":	0
-	}]
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	1
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatY":	13
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	23,
-		"y":	1
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatY":	13,
-	"except": [{
-		"x":	23,
-		"y":	8
-	}]
-}]
+	"tiles": [
+		{
+			"name":	"pokecenter",
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	4,
+				"y":	10
+			},
+			"x":	0,
+			"y":	0,
+			"w":	82,
+			"h":	70,
+			"dw":	100,
+			"dh":	50
+		},{
+			"name":	"pokecenter",
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	14,
+				"y":	10
+			},
+			"x":	0,
+			"y":	0,
+			"w":	82,
+			"h":	70,
+			"dw":	75,
+			"dh":	70
+		},{
+			"name":	"pokecenter",
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	4,
+				"y":	1
+			},
+			"x":	250,
+			"y":	145,
+			"w":	65,
+			"h":	65,
+			"dw":	75,
+			"dh":	75
+		},{
+			"name":	"pokemart",
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	20,
+				"y":	6
+			},
+			"x":	5,
+			"y":	185,
+			"w":	55,
+			"h":	50,
+			"dw":	50,
+			"dh":	50
+		},{
+			"name":	"pokecenter",
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	19,
+				"y":	10
+			},
+			"x":	0,
+			"y":	0,
+			"w":	82,
+			"h":	70,
+			"dw":	50,
+			"dh":	100
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	15
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatX":	23
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	0
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatX":	23,
+			"except":	[{
+				"x":	2,
+				"y":	0
+			},{
+				"x":	3,
+				"y":	0
+			},{
+				"x":	10,
+				"y":	0
+			},{
+				"x":	11,
+				"y":	0
+			},{
+				"x":	12,
+				"y":	0
+			},{
+				"x":	13,
+				"y":	0
+			}]
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	1
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatY":	13
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	23,
+				"y":	1
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatY":	13
+		}
+	]
+}

@@ -1,85 +1,100 @@
-[{
-	"type":	"building",
-	"src":	"img/pokemon.png",
-	"where": {
-		"x":	12,
-		"y":	15
-	},
-	"layer":"background",
-	"x":	1,
-	"y":	92,
-	"w":	16,
-	"h":	16,
-	"dw":	25,
-	"dh":	25,
-	"door": {
-		"at": {
-			"x":	12,
-			"y":	15
-		},
-		"to": {
-			"x":	7,
-			"y":	11
+{
+	"properties": {
+		"width":	300,
+		"height":	200,
+		"background": {
+			"color":"#386447",
+			"src":	"img/pokemon.png",
+			"x":	20,
+			"y":	94,
+			"w":	14,
+			"h":	14
 		}
-	}
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	0
 	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatX":	23
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	15
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatX":	23,
-	"except": [{
-		"x":	12,
-		"y":	15
-	}]
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	0,
-		"y":	1
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatY":	13
-},{
-	"type":	"structure",
-	"src":	"img/wall.jpg",
-	"where": {
-		"x":	23,
-		"y":	1
-	},
-	"x":	0,
-	"y":	0,
-	"w":	154,
-	"h":	154,
-	"dw":	25,
-	"dh":	25,
-	"repeatY":	13
-}]
+	"tiles": [
+		{
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	12,
+				"y":	15
+			},
+			"x":	1,
+			"y":	92,
+			"w":	16,
+			"h":	16,
+			"dw":	25,
+			"dh":	25,
+			"door": {
+				"at": {
+					"x":	12,
+					"y":	15
+				},
+				"to": {
+					"x":	7,
+					"y":	11
+				}
+			}
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	0
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatX":	23
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	15
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatX":	23,
+			"except": [{
+				"x":	12,
+				"y":	15
+			}]
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	0,
+				"y":	1
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatY":	13
+		},{
+			"type":	"structure",
+			"src":	"img/wall.jpg",
+			"where": {
+				"x":	23,
+				"y":	1
+			},
+			"x":	0,
+			"y":	0,
+			"w":	154,
+			"h":	154,
+			"dw":	25,
+			"dh":	25,
+			"repeatY":	13
+		}
+	]
+}
