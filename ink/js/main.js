@@ -11,7 +11,6 @@ var i,me,
 			&&	mozRequestAnimationFrame(main)
 		||	window.requestAnimationFrame
 			&&	requestAnimationFrame(main);
-		draw.scrap('screen');
 		me.move();
 		draw.terrain();
 		world.draw('background');
@@ -31,7 +30,6 @@ var i,me,
 					x:	~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25 + viewport.get().x,
 					y:	~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25 + viewport.get().y
 				};
-				console.log('click:',point.x,point.y);
 				if(!me.isMoving){
 					socket.emit('player.move',{
 						id:	me.id,

@@ -1,8 +1,6 @@
 var	draw = (function(){
-	var	self = this;
-		self.howManyCircles = 4;
-		self.circles = [];
-	var	easel = {
+	var	self = this,
+		easel = {
 			background:	$('#background').attr({
 				width:	world.dim.view.x,
 				height:	world.dim.view.y
@@ -27,13 +25,12 @@ var	draw = (function(){
 		clear = function(x,y,x2,y2,canvas){
 			easel[canvas || 'screen'].clearRect(x,y,x2,y2);
 		},
-		terrain = function(){
+		terrain = (function(){
 			easel.screen.fillStyle = '#000000';
-			easel.screen.beginPath();
-			easel.screen.fillRect(0,0,world.dim.view.x,world.dim.view.y);
-			easel.screen.closePath;
-			easel.screen.fill();
-		},
+			return function(){
+				easel.screen.fillRect(0,0,world.dim.view.x,world.dim.view.y);
+			};
+		})(),
 		path = function(x,y,x2,y2,canvas,options){
 			var defaults = {
 				width:		1,
@@ -65,6 +62,7 @@ var	draw = (function(){
 		object = function(item,canvas){
 			var image = new Image(),
 				canvas = easel[canvas] || easel.screen;
+			//	These cases are so similar! Must... combine!
 			if(item.type === 'canvas'){
 				canvas.drawImage(
 					easel.element[item.src],
@@ -85,55 +83,11 @@ var	draw = (function(){
 						item.y,
 						item.w,
 						item.h,
-						world.toXY(item.where.x) - viewport.get().x,
-						world.toXY(item.where.y) - viewport.get().y,
+						world.toXY(item.where.x),
+						world.toXY(item.where.y),
 						item.width || world.cell,
 						item.height || world.cell
 					);
-				};
-				image.src = item.src;
-			}
-		},
-		_object = function(item,canvas){
-			if(item.type === 'building' || item.type === 'structure' || item.type === 'item'){
-				var i,j,except,
-					image = new Image(),
-					where = world.toXY(item.where),
-					canvas = canvas || easel.screen,
-					x = item.x || 0,
-					y = item.y || 0,
-					w = item.w || world,
-					dw = item.dw || item.w,
-					dh = item.dh || item.h;
-					item.repeatX = item.repeatX || 0;
-					item.repeatY = item.repeatY || 0;
-				//canvas = easel[item.layer] || canvas || easel.screen;
-				image.onload = function(){
-					for(i = 0; i <= item.repeatX * world.cell; i += dw){
-						for(j = 0; j <= item.repeatY * world.cell; j += dh){
-							canvas.drawImage(
-								image,
-								x,
-								y,
-								item.w,
-								item.h,
-								where.x + i - viewport.get().x,
-								where.y + j - viewport.get().y,
-								dw,
-								dh
-							);
-						}
-					}
-					for(except = 0; except < (item.except && item.except.length || 0); except++){
-						item.except[except] = world.toXY(item.except[except]);
-						clear(
-							item.except[except].x,
-							item.except[except].y,
-							25,
-							25,
-							'screen'
-						);
-					}
 				};
 				image.src = item.src;
 			}

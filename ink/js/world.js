@@ -10,6 +10,9 @@ var world = (function(){
 		},
 		map = [],
 		tiles = {},
+		cache = {
+			map: {}
+		},
 		grid = function(){
 			var x,y,
 				cells = [];
@@ -49,76 +52,82 @@ var world = (function(){
 		},
 		render = function(position){
 			var map,
-				script = document.createElement('script');
+				script = document.createElement('script'),
+				paint = function(newMap){
+					var i,j,rX,rY,x,y,w,h,except;
+					cache.map[map] = newMap;
+					for(i = 0; i < world.dim.x; i += world.cell){
+						for(j = 0; j < world.dim.y; j += world.cell){
+							draw.object({
+								src:	newMap.properties.background.src,
+								x:		newMap.properties.background.x,
+								y:		newMap.properties.background.y,
+								w:		newMap.properties.background.w,
+								h:		newMap.properties.background.h,
+								where: world.toGrid(i,j)
+							},'background');
+						}
+					}
+					$.each(newMap.tiles,function(t,tile){
+						except = [];
+						tile.repeatX = tile.repeatX || 0;
+						tile.repeatY = tile.repeatY || 0;
+						x = tile.x;
+						y = tile.y;
+						w = tile.w / (tile.dw / world.cell);
+						h = tile.h / (tile.dh / world.cell);
+						if(tile.except){
+							for(i = 0; i < tile.except.length; i++){
+								except.push(tile.except[i].x + ',' + tile.except[i].y);
+							}
+						}
+						for(i = 0; i < tile.dw / cell; i++){
+							for(j = 0; j < tile.dh / cell; j++){
+								for(rX = 0; rX <= tile.repeatX; rX++){
+									for(rY = 0; rY <= tile.repeatY; rY++){
+										if(
+											except.indexOf(
+												(tile.where.x + i + rX)
+												+','
+												+(tile.where.y + j + rY)
+											) === -1
+										){
+											draw.object({
+												src:	tile.src,
+												x:		x + i * w,
+												y:		y + j * h,
+												w:		w,
+												h:		h,
+												where: {
+													x:	tile.where.x + i + rX,
+													y:	tile.where.y + j + rY
+												}
+											},'foreground');
+										}
+									}
+								}
+							}
+						}
+					});
+				};
 			//	Think about changing .src instead of remove/add.
 			$('script.map.events').remove();
 			script.src='map/events.' + position.map.x + '.' + position.map.y + '.js';
 			script.className = 'map events';
 			document.body.appendChild(script);
-			draw.terrain();
+			
 			map = position.map.x + '.' + position.map.y;
 			if(position.instance){
 				map += '+' + position.instance.x + '.' + position.instance.y;
 			}
-			$.getJSON('map/map.' + map + '.json',function(newMap){
-				var i,j,rX,rY,x,y,w,h,except;
-				for(i = 0; i < world.dim.x; i += world.cell){
-					for(j = 0; j < world.dim.y; j += world.cell){
-						draw.object({
-							src:	newMap.properties.background.src,
-							x:		newMap.properties.background.x,
-							y:		newMap.properties.background.y,
-							w:		newMap.properties.background.w,
-							h:		newMap.properties.background.h,
-							where: world.toGrid(i,j)
-						},'background');
-					}
-				}
-				$.each(newMap.tiles,function(t,tile){
-					except = [];
-					tile.repeatX = tile.repeatX || 0;
-					tile.repeatY = tile.repeatY || 0;
-					x = tile.x;
-					y = tile.y;
-					w = tile.w / (tile.dw / world.cell);
-					h = tile.h / (tile.dh / world.cell);
-					if(tile.except){
-						for(i = 0; i < tile.except.length; i++){
-							except.push(tile.except[i].x + ',' + tile.except[i].y);
-						}
-					}
-					for(i = 0; i < tile.dw / cell; i++){
-						for(j = 0; j < tile.dh / cell; j++){
-							for(rX = 0; rX <= tile.repeatX; rX++){
-								for(rY = 0; rY <= tile.repeatY; rY++){
-									if(
-										except.indexOf(
-											(tile.where.x + i + rX)
-											+','
-											+(tile.where.y + j + rY)
-										) === -1
-									){
-										draw.object({
-											src:	tile.src,
-											x:		x + i * w,
-											y:		y + j * h,
-											w:		w,
-											h:		h,
-											where: {
-												x:	tile.where.x + i + rX,
-												y:	tile.where.y + j + rY
-											}
-										},'foreground');
-									}
-								}
-							}
-						}
-					}
+			
+			if(cache.map[map]){
+				paint(cache.map[map]);
+			}else{
+				$.getJSON('map/map.' + map + '.json',function(newMap){
+					paint(newMap);
 				});
-				/*for(tile in tiles){
-					draw.object(tiles[tile],'foreground');
-				}*/
-			});
+			}
 		},
 		paint = function(layer){
 			draw.object({
@@ -187,16 +196,16 @@ var world = (function(){
 						map += '+' + position.instance.x + '.' + position.instance.y;
 					}
 					map = require('../map/map.' + map + '.json');
-					for(object in map){
-						switch(map[object].type){
+					for(object in map.tiles){
+						switch(map.tiles[object].type){
 							case 'building':
-								world.collision.add(map[object],position);
+								world.collision.add(map.tiles[object],position);
 								break;
 							case 'structure':
-								world.collision.add(map[object],position);
+								world.collision.add(map.tiles[object],position);
 								break;
 							case 'item':
-								world.collision.add(map[object],position,'item');
+								world.collision.add(map.tiles[object],position,'item');
 								break;
 						}
 					}
