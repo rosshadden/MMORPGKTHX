@@ -30,7 +30,7 @@ var i,me,
 					x:	~~((v.pageX - $('#game')[0].offsetLeft) / 25) * 25 + viewport.get().x,
 					y:	~~((v.pageY - $('#game')[0].offsetTop) / 25) * 25 + viewport.get().y
 				};
-				if(!me.isMoving){
+				if(!me.isMoving && world.inBounds(point)){
 					socket.emit('player.move',{
 						id:	me.id,
 						x:	point.x,
@@ -167,8 +167,10 @@ var i,me,
 			me.setPosition(data.position.at);
 			
 			bind();
-			world.render(data.position);
-			viewport.center();
-			main();
+			$.when(world.render(data.position))
+				.done(function(){
+					viewport.center();
+					main();
+				});
 		});
 	})();

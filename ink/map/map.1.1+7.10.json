@@ -1,7 +1,7 @@
 {
 	"properties": {
-		"width":	300,
-		"height":	200,
+		"width":	12,
+		"height":	8,
 		"background": {
 			"color":"#386447",
 			"src":	"img/pokemon.png",
@@ -16,9 +16,10 @@
 			"type":	"building",
 			"src":	"img/pokemon.png",
 			"where": {
-				"x":	12,
-				"y":	15
+				"x":	6,
+				"y":	7
 			},
+			"layer":"background",
 			"x":	1,
 			"y":	92,
 			"w":	16,
@@ -27,8 +28,8 @@
 			"dh":	25,
 			"door": {
 				"at": {
-					"x":	12,
-					"y":	15
+					"x":	6,
+					"y":	7
 				},
 				"to": {
 					"x":	7,
@@ -48,13 +49,13 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatX":	23
+			"repeatX":	11
 		},{
 			"type":	"structure",
 			"src":	"img/wall.jpg",
 			"where": {
 				"x":	0,
-				"y":	15
+				"y":	7
 			},
 			"x":	0,
 			"y":	0,
@@ -62,10 +63,10 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatX":	23,
+			"repeatX":	11,
 			"except": [{
-				"x":	12,
-				"y":	15
+				"x":	6,
+				"y":	7
 			}]
 		},{
 			"type":	"structure",
@@ -80,12 +81,12 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	13
+			"repeatY":	7
 		},{
 			"type":	"structure",
 			"src":	"img/wall.jpg",
 			"where": {
-				"x":	23,
+				"x":	11,
 				"y":	1
 			},
 			"x":	0,
@@ -94,7 +95,7 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	13
+			"repeatY":	7
 		}
 	]
 }

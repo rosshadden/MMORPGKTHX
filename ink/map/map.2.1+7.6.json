@@ -1,7 +1,7 @@
 {
 	"properties": {
-		"width":	200,
-		"height":	600,
+		"width":	8,
+		"height":	24,
 		"background": {
 			"color":"#386447",
 			"src":	"img/pokemon.png",
@@ -16,31 +16,8 @@
 			"type":	"building",
 			"src":	"img/pokemon.png",
 			"where": {
-				"x":	11,
-				"y":	15
-			},
-			"x":	1,
-			"y":	92,
-			"w":	16,
-			"h":	16,
-			"dw":	25,
-			"dh":	25,
-			"door": {
-				"at": {
-					"x":	11,
-					"y":	15
-				},
-				"to": {
-					"x":	7,
-					"y":	7
-				}
-			}
-		},{
-			"type":	"building",
-			"src":	"img/pokemon.png",
-			"where": {
-				"x":	12,
-				"y":	15
+				"x":	3,
+				"y":	23
 			},
 			"layer":"background",
 			"x":	1,
@@ -51,8 +28,32 @@
 			"dh":	25,
 			"door": {
 				"at": {
-					"x":	12,
-					"y":	15
+					"x":	3,
+					"y":	23
+				},
+				"to": {
+					"x":	7,
+					"y":	7
+				}
+			}
+		},{
+			"type":	"building",
+			"src":	"img/pokemon.png",
+			"where": {
+				"x":	4,
+				"y":	23
+			},
+			"layer":"background",
+			"x":	1,
+			"y":	92,
+			"w":	16,
+			"h":	16,
+			"dw":	25,
+			"dh":	25,
+			"door": {
+				"at": {
+					"x":	4,
+					"y":	23
 				},
 				"to": {
 					"x":	8,
@@ -72,13 +73,13 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatX":	23
+			"repeatX":	7
 		},{
 			"type":	"structure",
 			"src":	"img/wall.jpg",
 			"where": {
 				"x":	0,
-				"y":	15
+				"y":	23
 			},
 			"x":	0,
 			"y":	0,
@@ -86,13 +87,13 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatX":	23,
+			"repeatX":	7,
 			"except": [{
-				"x":	11,
-				"y":	15
+				"x":	3,
+				"y":	23
 			},{
-				"x":	12,
-				"y":	15
+				"x":	4,
+				"y":	23
 			}]
 		},{
 			"type":	"structure",
@@ -107,12 +108,12 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	13
+			"repeatY":	23
 		},{
 			"type":	"structure",
 			"src":	"img/wall.jpg",
 			"where": {
-				"x":	23,
+				"x":	7,
 				"y":	1
 			},
 			"x":	0,
@@ -121,7 +122,7 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	13
+			"repeatY":	23
 		}
 	]
 }

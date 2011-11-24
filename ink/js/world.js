@@ -10,6 +10,7 @@ var world = (function(){
 		},
 		map = [],
 		tiles = {},
+		currentMap = '';
 		cache = {
 			map: {}
 		},
@@ -52,12 +53,20 @@ var world = (function(){
 		},
 		render = function(position){
 			var map,
+				def = new $.Deferred,
 				script = document.createElement('script'),
-				paint = function(newMap){
-					var i,j,rX,rY,x,y,w,h,except;
+				create = function(newMap){
+					var i,j,rX,rY,x,y,w,h,except,
+						width = world.toXY(newMap.properties.width),
+						height = world.toXY(newMap.properties.height);
 					cache.map[map] = newMap;
-					for(i = 0; i < world.dim.x; i += world.cell){
-						for(j = 0; j < world.dim.y; j += world.cell){
+					currentMap = map;
+					$('#background,#foreground').attr({
+						width:	width,
+						height:	height
+					});
+					for(i = 0; i < width; i += world.cell){
+						for(j = 0; j < height; j += world.cell){
 							draw.object({
 								src:	newMap.properties.background.src,
 								x:		newMap.properties.background.x,
@@ -109,6 +118,7 @@ var world = (function(){
 							}
 						}
 					});
+					def.resolve();
 				};
 			//	Think about changing .src instead of remove/add.
 			$('script.map.events').remove();
@@ -122,12 +132,13 @@ var world = (function(){
 			}
 			
 			if(cache.map[map]){
-				paint(cache.map[map]);
+				create(cache.map[map]);
 			}else{
 				$.getJSON('map/map.' + map + '.json',function(newMap){
-					paint(newMap);
+					create(newMap);
 				});
 			}
+			return def.promise();
 		},
 		paint = function(layer){
 			draw.object({
@@ -135,10 +146,10 @@ var world = (function(){
 				src:	layer,
 				x:		0,
 				y:		0,
-				w:		600,
-				h:		400,
-				width:	600,
-				height:	400,
+				w:		world.toXY(cache.map[currentMap].properties.width),
+				h:		world.toXY(cache.map[currentMap].properties.height),
+				width:	world.toXY(cache.map[currentMap].properties.width),
+				height:	world.toXY(cache.map[currentMap].properties.height),
 				where: {
 					x:	0,
 					y:	0
@@ -188,6 +199,15 @@ var world = (function(){
 				x:	Math.floor(x / cell) * cell,
 				y:	Math.floor(y / cell) * cell
 			};
+		},
+		inBounds = function(point){
+			point = toGrid(point);
+			return (
+				point.x > -1
+			&&	point.y > -1
+			&&	point.x < cache.map[currentMap].properties.width
+			&&	point.y < cache.map[currentMap].properties.height
+			);
 		},
 		collision = (function(){
 			var render = function(position){
@@ -292,6 +312,7 @@ var world = (function(){
 		toXY:		toXY,
 		toPoint:	toPoint,
 		conform:	conform,
+		inBounds:	inBounds,
 		collision:	collision
 	};
 })();

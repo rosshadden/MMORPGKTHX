@@ -49,7 +49,7 @@ body{
 		}
 		#background,#foreground{
 			/*display:none;*/
-			top:450px;
+			top:480px;
 		}
 		.bird{
 			position:absolute; top:200px; left:300px;
