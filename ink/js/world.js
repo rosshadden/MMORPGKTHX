@@ -55,29 +55,8 @@ var world = (function(){
 			var map,
 				def = new $.Deferred,
 				script = document.createElement('script'),
-				create = function(newMap){
-					var i,j,rX,rY,x,y,w,h,except,
-						width = world.toXY(newMap.properties.width),
-						height = world.toXY(newMap.properties.height);
-					cache.map[map] = newMap;
-					currentMap = map;
-					$('#background,#foreground').attr({
-						width:	width,
-						height:	height
-					});
-					for(i = 0; i < width; i += world.cell){
-						for(j = 0; j < height; j += world.cell){
-							draw.object({
-								src:	newMap.properties.background.src,
-								x:		newMap.properties.background.x,
-								y:		newMap.properties.background.y,
-								w:		newMap.properties.background.w,
-								h:		newMap.properties.background.h,
-								where: world.toGrid(i,j)
-							},'background');
-						}
-					}
-					$.each(newMap.tiles,function(t,tile){
+				paint = function(tiles,layer){
+					$.each(tiles,function(t,tile){
 						except = [];
 						tile.repeatX = tile.repeatX || 0;
 						tile.repeatY = tile.repeatY || 0;
@@ -111,13 +90,38 @@ var world = (function(){
 													x:	tile.where.x + i + rX,
 													y:	tile.where.y + j + rY
 												}
-											},'foreground');
+											},tile.layer || layer);
 										}
 									}
 								}
 							}
 						}
 					});
+				},
+				create = function(newMap){
+					var i,j,rX,rY,x,y,w,h,except,
+						width = world.toXY(newMap.properties.width),
+						height = world.toXY(newMap.properties.height);
+					cache.map[map] = newMap;
+					currentMap = map;
+					$('#background,#foreground').attr({
+						width:	width,
+						height:	height
+					});
+					for(i = 0; i < width; i += world.cell){
+						for(j = 0; j < height; j += world.cell){
+							draw.object({
+								src:	newMap.background.src,
+								x:		newMap.background.x,
+								y:		newMap.background.y,
+								w:		newMap.background.w,
+								h:		newMap.background.h,
+								where: world.toGrid(i,j)
+							},'background');
+						}
+					}
+					paint(newMap.background.tiles,'background');
+					paint(newMap.tiles,'foreground');
 					def.resolve();
 				};
 			//	Think about changing .src instead of remove/add.

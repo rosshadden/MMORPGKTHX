@@ -13,6 +13,7 @@ $(world).bind({
 			socket.emit('player.openChest');
 			socket.once('player.openChest',function(data){
 				console.log(14,14,data);
+				$(world).unbind('world.walk:13.14 world.walk:14.13 world.walk:15.14');
 			});
 		});
 	}

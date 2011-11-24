@@ -1,15 +1,16 @@
 {
 	"properties": {
 		"width":	24,
-		"height":	16,
-		"background": {
-			"color":"#386447",
-			"src":	"img/pokemon.png",
-			"x":	74,
-			"y":	76,
-			"w":	14,
-			"h":	14
-		}
+		"height":	16
+	},
+	"background": {
+		"color":"#386447",
+		"src":	"img/pokemon.png",
+		"x":	74,
+		"y":	76,
+		"w":	14,
+		"h":	14,
+		"tiles": []
 	},
 	"tiles": [
 		{

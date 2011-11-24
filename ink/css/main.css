@@ -48,7 +48,7 @@ body{
 			pointer-events:none;
 		}
 		#background,#foreground{
-			/*display:none;*/
+			display:none;
 			top:480px;
 		}
 		.bird{

@@ -1,5 +1,6 @@
 var fs = require('fs'),
 	express = require('express'),
+	//less = require('less'),
 	app = express.createServer(),
 	Session = require('connect').middleware.session.Session,
 	parseCookie = require('connect').utils.parseCookie,
@@ -28,9 +29,21 @@ var fs = require('fs'),
 				key:	'express.sid'
 			}));
 			app.use(require('./auth').configure(app));
+			//app.use(express.compiler({src:__dirname + '/ink',enable:['less']}));
 			app.use(app.router);
 			app.use(express.static(__dirname + '/ink'));
 		});
+		/*app.get('*.less',function(req,res){
+			var path = __dirname + req.url;
+			fs.readFile(path,'utf8',function(err,data){
+				//if(err) throw err;
+				less.render(data,function(err,css){
+					//if(err) throw err;
+					res.header('Content-type','text/css');
+					res.send(css);
+				});
+			});
+		});*/
 		app.get('/',function(request,response){
 			response.render('index');
 		});
@@ -319,8 +332,10 @@ var fs = require('fs'),
 					if(item.data.opened.indexOf(players[username].user) === -1){
 						item.data.opened.push(players[username].user);
 						response = 'Woot, you got an item.';
-						for(i = 0; i < item.data.contents.length; i++){
-							players[username].inventory.push(item.data.contents[i]);
+						if(item.data.contents){
+							for(i = 0; i < item.data.contents.length; i++){
+								players[username].inventory.push(item.data.contents[i]);
+							}
 						}
 					}else{
 						response = 'No such luck.';
