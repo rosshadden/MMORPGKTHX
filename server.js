@@ -13,6 +13,8 @@ var fs = require('fs'),
 	
 	time = new Date,
 	
+	ONLINE = true,
+	
 	players = {},
 	parties = {},
 	numClients = 0,
@@ -28,6 +30,10 @@ var fs = require('fs'),
 				secret:	'asdf',
 				key:	'express.sid'
 			}));
+			if(process.argv[3] === 'offline'){
+				ONLINE = false;
+				console.log('::OFFLINE::');
+			}
 			app.use(require('./auth').configure(app));
 			//app.use(express.compiler({src:__dirname + '/ink',enable:['less']}));
 			app.use(app.router);
@@ -132,7 +138,11 @@ var fs = require('fs'),
 		io.sockets.on('connection',function(socket){
 			var me = socket.handshake.sessionID,
 				protocol = Object.keys(socket.handshake.session.auth)[0],
-				username = protocol + '|' + socket.handshake.session.auth[protocol].user.id;
+				username =
+					protocol
+					+'|'
+					+(!ONLINE) ? 0 : socket.handshake.session.auth[protocol].user.id;
+				username = protocol + '|' + 0;
 			socket.on('login',function(){
 				time = new Date;
 				if(!players[username]){

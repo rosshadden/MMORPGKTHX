@@ -161,6 +161,11 @@ var i,me,
 		canvas = document.getElementById('screen');
 		ctx = canvas.getContext('2d');
 		
+		$('#main').css({
+			width:	world.dim.view.x,
+			height:	world.dim.view.y
+		});
+		
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){
 			me = new Player(data.user);

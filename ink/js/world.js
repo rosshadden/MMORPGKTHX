@@ -4,8 +4,8 @@ var world = (function(){
 			x:	6e2,//1e3,
 			y:	4e2,//1e3,
 			view: {
-				x:	6e2,
-				y:	4e2
+				x:	8e2,
+				y:	6e2
 			}
 		},
 		map = [],

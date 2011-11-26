@@ -11,30 +11,4 @@ html(lang="en")
     script(src='/js/modernizr.js')
   body
     #main
-      - if(everyauth.loggedIn)
-        !=body
-        #Authed
-          - if(everyauth.twitter)
-            span
-              Hi #{everyauth.twitter.user.name} from Twitter!
-            span
-              img(src='#{everyauth.twitter.user.profile_image_url}')
-          - if(everyauth.facebook)
-            span Hi #{everyauth.facebook.user.name} from Facebook!
-          - if(everyauth.github)
-            span Hi #{everyauth.github.user.name} from GitHub!
-            span
-              img(src="https://secure.gravatar.com/avatar/#{everyauth.github.user.gravatar_id}")
-          //code= JSON.stringify(everyauth)
-          div
-            a(href="/logout") Sign Out
-      - else
-        #login
-          a.button(href='/auth/twitter')
-            img(src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
-          a.button(href='auth/google')
-            img(src='https://www.google.com/favicon.ico')
-          a.button(href='auth/facebook')
-            img(src='http://facebook.com/favicon.ico')
-          a.button(href='auth/github')
-            img(src='http://github.com/intridea/authbuttons/raw/master/png/github_64.png')
+      !=body

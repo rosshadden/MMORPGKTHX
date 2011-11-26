@@ -21,11 +21,11 @@ var viewport = (function(){
 			var x = me.x,
 				y = me.y;
 			if(!dontMove){
-				move(~~(x - world.dim.x / 2),~~(y - world.dim.y / 2));
+				move(~~(x - world.dim.view.x / 2),~~(y - world.dim.view.y / 2));
 			}
 			return {
-				x:	~~(world.dim.x / 2),
-				y:	~~(world.dim.y / 2)
+				x:	~~(world.dim.view.x / 2),
+				y:	~~(world.dim.view.y / 2)
 			};
 		};
 		

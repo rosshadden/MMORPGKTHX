@@ -90,6 +90,9 @@ body{
 		color:#333;
 		overflow:hidden;
     }
+	#menu.party{
+		-moz-transform:rotate(60deg);
+	}
 		#menu-party{
 			position:relative; top:0; left:350px;
 			-webkit-transform:rotate(-5deg);
@@ -147,10 +150,14 @@ body{
 }
 @-moz-keyframes fly{
 	0%	{
-		-moz-transform:rotate(0deg);
+		-moz-transform:
+			rotate(0deg)
+			translate(-80px);
 	}
 	100%{
-		-moz-transform:rotate(360deg);
+		-moz-transform:
+			rotate(360deg)
+			translate(-80px);
 	}
 }
 @keyframes fly{
