@@ -18,8 +18,8 @@ var viewport = (function(){
 			move(x + newX,y + newY);
 		},
 		center = function(dontMove){
-			var x = me.x,
-				y = me.y;
+			var x = me.position.at.x,
+				y = me.position.at.y;
 			if(!dontMove){
 				move(~~(x - world.dim.view.x / 2),~~(y - world.dim.view.y / 2));
 			}

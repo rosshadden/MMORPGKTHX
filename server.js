@@ -253,7 +253,7 @@ var fs = require('fs'),
 					}
 					players[username].position.path = [data.door.to];
 				}else if(world.collision.onEdge(
-					world.toGrid(players[username].position.at),
+					players[username].position,
 					data.dir
 				)){
 					switch(data.dir){

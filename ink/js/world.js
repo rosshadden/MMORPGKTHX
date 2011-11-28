@@ -280,17 +280,18 @@ var world = (function(){
 					}
 				},
 				onEdge = function(position,facing){
+					var where = world.toGrid(position.at);
 					if(typeof world === 'undefined'){
 						world = require('./world');
 					}
 					if(
-						position.x === 0
+						where.x === 0
 						&&	facing === 'W'
-					||	position.x === world.toGrid(world.dim.x) - 1
+					||	where.x === world.toGrid(world.dim.x) - 1
 						&&	facing === 'E'
-					||	position.y === 0
+					||	where.y === 0
 						&&	facing === 'N'
-					||	position.y === world.toGrid(world.dim.y) - 1
+					||	where.y === world.toGrid(world.dim.y) - 1
 						&&	facing === 'S'
 					){
 						return true;

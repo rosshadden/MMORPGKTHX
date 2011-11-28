@@ -9,11 +9,13 @@ var	Player = function(user){
 		self.height = 25;
 		self.sprite = 0;
 		
-		self.x = 0;
-		self.y = 0;
 		self.speed = 1;
 		self.position = {
-			path:	[]
+			path: [],
+			at: {
+				x:	0,
+				y:	0
+			}
 		};
 		
 		self.directions = ['S','W','N','E'];
@@ -27,11 +29,11 @@ var	Player = function(user){
 		
 		self.setPosition = function(x,y){
 			if(typeof x === 'object'){
-				self.x = x.x;
-				self.y = x.y;
+				self.position.at.x = x.x;
+				self.position.at.y = x.y;
 			}else{
-				self.x = x;
-				self.y = y;
+				self.position.at.x = x;
+				self.position.at.y = y;
 			}
 		};
 		self.draw = function(){
@@ -41,8 +43,8 @@ var	Player = function(user){
 				self.sprite * self.height,
 				self.width,
 				self.height,
-				(self === me) ? viewport.center().x : self.x - viewport.get().x,
-				(self === me) ? viewport.center().y : self.y - viewport.get().y,
+				(self === me) ? viewport.center().x : self.position.at.x - viewport.get().x,
+				(self === me) ? viewport.center().y : self.position.at.y - viewport.get().y,
 				self.width,
 				self.height
 			);
@@ -57,7 +59,7 @@ var	Player = function(user){
 				speed = self.speed,
 				position = self.position,
 				check = function(point){
-					return self.x === point.x && self.y === point.y;
+					return position.at.x === point.x && position.at.y === point.y;
 				};
 			if(position.path[0]){
 				point = world.toXY(position.path[0]);
@@ -66,38 +68,38 @@ var	Player = function(user){
 					if(
 						speed > 1
 					&&(
-							Math.abs(point.x - self.x) === 1
-						||	Math.abs(point.y - self.y) === 1
+							Math.abs(point.x - self.position.at.x) === 1
+						||	Math.abs(point.y - self.position.at.y) === 1
 					)
 					){
 						speed = 1;
 					}
-					if(point.x > self.x){
-						self.x += speed;
+					if(point.x > self.position.at.x){
+						self.position.at.x += speed;
 						if(self === me){
 							viewport.moveBy(speed,0);
 						}
 						self.dir = 'E';
-					}else if(point.x < self.x){
-						self.x -= speed;
+					}else if(point.x < self.position.at.x){
+						self.position.at.x -= speed;
 						if(self === me){
 							viewport.moveBy(-speed,0);
 						}
 						self.dir = 'W';
-					}else if(point.y > self.y){
-						self.y += speed;
+					}else if(point.y > self.position.at.y){
+						self.position.at.y += speed;
 						if(self === me){
 							viewport.moveBy(0,speed);
 						}
 						self.dir = 'S';
-					}else if(point.y < self.y){
-						self.y -= speed;
+					}else if(point.y < self.position.at.y){
+						self.position.at.y -= speed;
 						if(self === me){
 							viewport.moveBy(0,-speed);
 						}
 						self.dir = 'N';
 					}
-					self.setPosition(self.x,self.y);
+					self.setPosition(self.position.at.x,self.position.at.y);
 				}else{
 					self.isMoving = false;
 					if(position.path.length === 1){
@@ -112,10 +114,7 @@ var	Player = function(user){
 						self === me
 					&&(
 						world.collision.onEdge(
-							world.toGrid(
-								self.x,
-								self.y
-							),
+							self.position,
 							self.dir
 						)
 						||		position.entity === 'door'
@@ -144,8 +143,8 @@ var	Player = function(user){
 				}
 				if(self === me){
 					$('.bird').css({
-						left:	self.x,
-						top:	self.y
+						left:	self.position.at.x,
+						top:	self.position.at.y
 					});
 				}
 			}

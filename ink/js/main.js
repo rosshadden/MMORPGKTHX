@@ -36,8 +36,8 @@ var i,me,
 						x:	point.x,
 						y:	point.y,
 						old: {
-							x:	me.x,
-							y:	me.y
+							x:	me.position.at.x,
+							y:	me.position.at.y
 						}
 					});
 					$(world).trigger(
@@ -67,10 +67,10 @@ var i,me,
 			}
 		});
 		socket.on('player.move',function(position){
-			var path;
 			if(position.path){
-				path = position.path;
-				me.position = position;
+				me.position.map = position.map || {};
+				me.position.path = position.path || [];
+				me.position.entity = position.entity || '';
 			}
 		});
 		socket.on('player.warp',function(position){
@@ -85,7 +85,9 @@ var i,me,
 				players[position.user].path = [];
 				players[position.user].setPosition(world.toXY(position.path[0]));
 			}else{
-				players[position.user].position = position;
+				players[position.user].position.map = position.map || {};
+				players[position.user].position.path = position.path || [];
+				players[position.user].position.entity = position.entity || '';
 			}
 			players[position.user].visible = true;
 		});
@@ -161,9 +163,10 @@ var i,me,
 		canvas = document.getElementById('screen');
 		ctx = canvas.getContext('2d');
 		
-		$('#main').css({
-			width:	world.dim.view.x,
+		$('#game').css({
 			height:	world.dim.view.y
+		}).add('#main').css({
+			width:	world.dim.view.x
 		});
 		
 		socket.emit('login',Math.round(Math.random() * 1e4));
