@@ -1,5 +1,4 @@
 var i,me,
-	canvas,ctx,
 	players = {},
 	
 	socket = new io.connect(location.hostname),
@@ -64,6 +63,9 @@ var i,me,
 					default:
 						//console.log('keydown:',v.which);
 				}
+			},
+			resize:		function(){
+				viewport.setDimensions();
 			}
 		});
 		socket.on('player.move',function(position){
@@ -160,14 +162,7 @@ var i,me,
 		};
 	})(),
 	init = (function(){
-		canvas = document.getElementById('screen');
-		ctx = canvas.getContext('2d');
-		
-		$('#game').css({
-			height:	world.dim.view.y
-		}).add('#main').css({
-			width:	world.dim.view.x
-		});
+		viewport.setDimensions();
 		
 		socket.emit('login',Math.round(Math.random() * 1e4));
 		socket.on('login',function(data){

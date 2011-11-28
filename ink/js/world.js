@@ -1,25 +1,16 @@
 var world = (function(){
 	var cell = 25,
-		dim = {
-			x:	6e2,//1e3,
-			y:	4e2,//1e3,
-			view: {
-				x:	8e2,
-				y:	6e2
-			}
-		},
 		map = [],
-		tiles = {},
 		currentMap = '';
 		cache = {
 			map: {}
 		},
-		grid = function(){
+		grid = function(mapName){
 			var x,y,
 				cells = [];
-			for(x = 0; x < dim.x / cell; x++){
+			for(x = 0; x < cache.map[mapName].properties.width; x++){
 				cells[x] = [];
-				for(y = 0; y < dim.y / cell; y++){
+				for(y = 0; y < cache.map[mapName].properties.height; y++){
 					cells[x][y] = {
 						x:		x * cell,
 						y:		y * cell,
@@ -30,11 +21,15 @@ var world = (function(){
 			return cells;
 		},
 		getMap = function(position){
+			var mapName = position.map.x + '.' + position.map.y;
+			if(position.instance){
+				mapName += '+' + position.instance.x + '.' + position.instance.y;
+			}
 			if(!map[position.map.x]){
 				map[position.map.x] = [];
 			}
 			if(!map[position.map.x][position.map.y]){
-				map[position.map.x][position.map.y] = grid();
+				map[position.map.x][position.map.y] = grid(mapName);
 			}
 			if(!position.instance){
 				return map[position.map.x][position.map.y];
@@ -46,7 +41,7 @@ var world = (function(){
 					map[position.map.x][position.map.y].instance[position.instance.x] = [];
 				}
 				if(!map[position.map.x][position.map.y].instance[position.instance.x][position.instance.y]){
-					map[position.map.x][position.map.y].instance[position.instance.x][position.instance.y] = grid();
+					map[position.map.x][position.map.y].instance[position.instance.x][position.instance.y] = grid(mapName);
 				}
 				return map[position.map.x][position.map.y].instance[position.instance.x][position.instance.y];
 			}
@@ -215,11 +210,12 @@ var world = (function(){
 		},
 		collision = (function(){
 			var render = function(position){
-					var map = position.map.x + '.' + position.map.y;
+					var mapName = position.map.x + '.' + position.map.y;
 					if(position.instance){
-						map += '+' + position.instance.x + '.' + position.instance.y;
+						mapName += '+' + position.instance.x + '.' + position.instance.y;
 					}
-					map = require('../map/map.' + map + '.json');
+					map = require('../map/map.' + mapName + '.json');
+					cache.map[mapName] = map;
 					for(object in map.tiles){
 						switch(map.tiles[object].type){
 							case 'building':
@@ -236,7 +232,11 @@ var world = (function(){
 				},
 				add = function(object,position,entity){
 					var x,y,i,j,
-						map = world.map(position);
+						map = world.map(position),
+						mapName = position.map.x + '.' + position.map.y;
+					if(position.instance){
+						mapName += '+' + position.instance.x + '.' + position.instance.y;
+					}
 					entity = entity || false;
 					object.repeatX = object.repeatX || 0;
 					object.repeatY = object.repeatY || 0;
@@ -262,7 +262,7 @@ var world = (function(){
 					if(object.door){
 						map[object.door.at.x][object.door.at.y].vacant = 'door';
 						map[object.door.at.x][object.door.at.y].door = object.door;
-						map[object.door.at.x][object.door.at.y].instance = grid();
+						map[object.door.at.x][object.door.at.y].instance = grid(mapName);
 					}
 				},
 				check = function(cell,position){
@@ -280,18 +280,21 @@ var world = (function(){
 					}
 				},
 				onEdge = function(position,facing){
-					var where = world.toGrid(position.at);
-					if(typeof world === 'undefined'){
-						world = require('./world');
+					var map,
+						where = world.toGrid(position.at),
+						mapName = position.map.x + '.' + position.map.y;
+					if(position.instance){
+						mapName += '+' + position.instance.x + '.' + position.instance.y;
 					}
+					map = cache.map[mapName];
 					if(
 						where.x === 0
 						&&	facing === 'W'
-					||	where.x === world.toGrid(world.dim.x) - 1
+					||	where.x === map.properties.width - 1
 						&&	facing === 'E'
 					||	where.y === 0
 						&&	facing === 'N'
-					||	where.y === world.toGrid(world.dim.y) - 1
+					||	where.y === map.properties.height - 1
 						&&	facing === 'S'
 					){
 						return true;
@@ -309,7 +312,6 @@ var world = (function(){
 		})();
 	return {
 		cell:		cell,
-		dim:		dim,
 		map:		getMap,
 		render:		render,
 		draw:		paint,

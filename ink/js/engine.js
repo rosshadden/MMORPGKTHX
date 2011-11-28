@@ -3,7 +3,29 @@ var viewport = (function(){
 	
 		x = 0,
 		y = 0,
+		dim = {
+			width:	0,
+			height:	0
+		},
 		
+		setDimensions = function(){
+			dim.width = ~~(window.innerWidth / world.cell / 2) * world.cell * 2 - 1e2;
+			dim.height = ~~(window.innerHeight / world.cell / 2) * world.cell * 2 - 1e2;
+			
+			$('#game').css({
+				height:	dim.height
+			}).add('#main').css({
+				width:	dim.width
+			});
+			
+			draw.setDimensions(dim.width,dim.height);
+		},
+		getDimensions = function(){
+			return {
+				width:	dim.width,
+				height:	dim.height
+			};
+		},
 		getPosition = function(){
 			return {
 				x:	x,
@@ -21,18 +43,20 @@ var viewport = (function(){
 			var x = me.position.at.x,
 				y = me.position.at.y;
 			if(!dontMove){
-				move(~~(x - world.dim.view.x / 2),~~(y - world.dim.view.y / 2));
+				move(~~(x - viewport.getDimensions().width / 2),~~(y - viewport.getDimensions().height / 2));
 			}
 			return {
-				x:	~~(world.dim.view.x / 2),
-				y:	~~(world.dim.view.y / 2)
+				x:	~~(viewport.getDimensions().width / 2),
+				y:	~~(viewport.getDimensions().height / 2)
 			};
 		};
 		
 	return {
-		get:		getPosition,
-		move:		move,
-		moveBy:		moveBy,
-		center:		center
+		setDimensions:	setDimensions,
+		getDimensions:	getDimensions,
+		get:			getPosition,
+		move:			move,
+		moveBy:			moveBy,
+		center:			center
 	};
 })();

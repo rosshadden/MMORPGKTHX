@@ -37,7 +37,7 @@ var	Player = function(user){
 			}
 		};
 		self.draw = function(){
-			ctx.drawImage(
+			draw.easel.screen.drawImage(
 				self.image,
 				self.width * 2 * self.directions.indexOf(self.dir) + self.width * self.actualFrame * self.isMoving,
 				self.sprite * self.height,
@@ -130,7 +130,6 @@ var	Player = function(user){
 						}
 						socket.emit('player.changeMap',oldPos);
 						socket.once('player.changeMap',function(newPos){
-							//map = newPos.map;
 							$(world).unbind('world');
 							world.render(newPos);
 							socket.emit('players.update');
