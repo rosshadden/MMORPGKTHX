@@ -194,6 +194,7 @@ var fs = require('fs'),
 				}
 				socket.on('player.move',function(data){
 					var collision = world.collision.check(data,players[username].position);
+console.log(players[username].position);
 					if(!collision.vacant){
 						socket.emit('player.move',false);
 					}else{
@@ -242,9 +243,11 @@ var fs = require('fs'),
 					map: {
 						x:	players[username].position.map.x,
 						y:	players[username].position.map.y
-					},
-					instance:	players[username].position.instance
+					}
 				};
+				if(players[username].position.instance){
+					old.instance = players[username].position.instance;
+				}
 				if(data.door){
 					if(data.door.instance){
 						players[username].position.instance = data.door.instance;

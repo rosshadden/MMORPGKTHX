@@ -216,6 +216,19 @@ var world = (function(){
 					}
 					map = require('../map/map.' + mapName + '.json');
 					cache.map[mapName] = map;
+					for(object in map.background.tiles){
+						switch(map.tiles[object].type){
+							case 'building':
+								world.collision.add(map.background.tiles[object],position);
+								break;
+							case 'structure':
+								world.collision.add(map.background.tiles[object],position);
+								break;
+							case 'item':
+								world.collision.add(map.background.tiles[object],position,'item');
+								break;
+						}
+					}
 					for(object in map.tiles){
 						switch(map.tiles[object].type){
 							case 'building':
@@ -244,6 +257,7 @@ var world = (function(){
 						for(j = 0; j <= object.repeatY; j++){
 							for(x = 0; x < object.dw / world.cell; x++){
 								for(y = 0; y < object.dh / world.cell; y++){
+//console.log(object.where.x + x + i,object.where.y + y + j);
 									if(map[object.where.x + x + i][object.where.y + y + j].vacant !== 'door'){
 										map[object.where.x + x + i][object.where.y + y + j].vacant = entity;
 									}

@@ -70,9 +70,24 @@ var i,me,
 		});
 		socket.on('player.move',function(position){
 			if(position.path){
-				me.position.map = position.map || {};
-				me.position.path = position.path || [];
-				me.position.entity = position.entity || '';
+				if(typeof position.map !== 'undefined'){
+					me.position.map = position.map || {};
+				}
+				if(typeof position.path !== 'undefined'){
+					me.position.path = position.path || [];
+				}
+				if(typeof position.entity !== 'undefined'){
+					me.position.entity = position.entity || '';
+				}
+				if(typeof position.door !== 'undefined'){
+					me.position.door = position.door || {};
+				}
+				if(typeof position.to !== 'undefined'){
+					me.position.to = position.to || {};
+				}
+				if(typeof position.instance !== 'undefined'){
+					me.position.instance = position.instance || {};
+				}
 			}
 		});
 		socket.on('player.warp',function(position){

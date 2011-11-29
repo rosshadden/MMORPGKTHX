@@ -83,7 +83,7 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	7
+			"repeatY":	6
 		},{
 			"type":	"structure",
 			"src":	"img/wall.jpg",
@@ -97,7 +97,7 @@
 			"h":	154,
 			"dw":	25,
 			"dh":	25,
-			"repeatY":	7
+			"repeatY":	6
 		}
 	]
 }
