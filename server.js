@@ -1,5 +1,4 @@
-var fs = require('fs'),
-	express = require('express'),
+var express = require('express'),
 	//less = require('less'),
 	app = express.createServer(),
 	Session = require('connect').middleware.session.Session,
@@ -111,8 +110,8 @@ var fs = require('fs'),
 				y:	1
 			}
 		});
-		console.log('http://localhost:%d | %s',+(process.argv[2] || 80),app.settings.env);
 		app.listen(+(process.argv[2] || 80));
+		console.log('http://localhost:%d | %s',+(process.argv[2] || 80),app.settings.env);
 		
 		io.set('authorization',function(data,accept){
 			if(data.headers.cookie){
