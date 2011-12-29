@@ -110,8 +110,8 @@ var express = require('express'),
 				y:	1
 			}
 		});
-		app.listen(+(process.argv[2] || 80));
-		console.log('http://localhost:%d | %s',+(process.argv[2] || 80),app.settings.env);
+		app.listen(+(process.argv[2] || process.env.PORT || 80));
+		console.log('http://localhost:%d | %s',+(process.argv[2] || process.env.PORT || 80),app.settings.env);
 		
 		io.set('authorization',function(data,accept){
 			if(data.headers.cookie){
